@@ -72,40 +72,139 @@ One note before you delve into your tasks: for each endpoint you are expected to
 ## API Documentation
 ### Endpoints
 
-GET/categories
-* fetches get all the categories in the database. ``` http://localhost:5000/categories ```
-
-GET/questions
-* fetches get all the questions in the database. ``` http://localhost:5000/questions ```
-
-POST/questions
-* fetches get all the questions in the database. ``` http://localhost:5000/questions ```
+GET`/categories`
+ Fetches all the categories in the database.
+*  Request parameters: None
+* Response:
 ```
     {
-    "answer": "Brazil", 
-    "category": 5, 
-    "difficulty": 3, 
-    "id": 2, 
-    "question": "Who won the 2002 fifa world cup"
+    "categories": {
+        "1": "tech", 
+        "2": "non-tech", 
+        "3": "Art", 
+        "4": "History", 
+        "5": "Sports"
+    }, 
+    "success": true
     }
 ```
 
-GET/questions
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-``` http://localhost:5000/categories/id/questions ```
-{'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"}
 
-DELETE/question
-* delete a question from the database with the question id. ``` http://localhost:5000/questions/id ```
+GET`/questions?page=<number>`
+fetches all the questions in the database with categories. 
+* Request parameters: 1 (default)
+* Response: 
+```
+    {
+    "categories": {
+        "1": "tech", 
+        "2": "non-tech", 
+        "3": "Art", 
+        "4": "History", 
+        "5": "Sports"
+    }, 
+    "questions": [
+        {
+        "answer": "we off", 
+        "category": "non-tech", 
+        "difficulty": 1, 
+        "id": 17, 
+        "question": "what we up to"
+        }, 
+        {
+        "answer": "i donot know", 
+        "category": "non-tech", 
+        "difficulty": 4, 
+        "id": 18, 
+        "question": "are we out"
+        }, 
+        {
+        "answer": "4", 
+        "category": "3", 
+        "difficulty": 2, 
+        "id": 22, 
+        "question": "what is 2+2"
+        }
+    ], 
+    "success": true, 
+    "total_questions": 3
+    }
+```
 
+POST`/questions`
+Add a new question to the database. 
+* Request body:
+```{
+    question = String
+    answer = String
+    difficulty =  int
+    category = String
+    }
+```
+* Response:
+```
+    {
+    'success': True,
+    'massage': 'Question created!'
+    }
+```
 
+GET`/categories/<int:category_id>/questions`
+Fetches a category of questions with specified category id.
+* Request argument: category_id
+* Response: 
+```
+{
+  "current_category": 2, 
+  "questions": [
+    {
+      "answer": "we off", 
+      "category": "non-tech", 
+      "difficulty": 1, 
+      "id": 17, 
+      "question": "what we up to"
+    }, 
+    {
+      "answer": "i donot know", 
+      "category": "non-tech", 
+      "difficulty": 4, 
+      "id": 18, 
+      "question": "are we out"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 2
+}
+```
+
+DELETE`/questions/<int:question_id>`
+ delete a question from the database with the question id.
+ * Request arguments:'`question_id`
+ * Response
+```
+{
+    'success': True,
+    'deleted': "15",
+    'total_questions': "20"
+}   
+```
+
+POST `/questions/search`
+Search all questions with the provided search term.
+* Request body: {searchTerm: String}
+* Response: 
+```
+{
+    'success': True,
+    'questions': "questions";[{ 
+        "answer": "i donot know", 
+        "category": "non-tech", 
+        "difficulty": 4, 
+        "id": 18, 
+        "question": "are we out"}],
+    'total_questions': 1,
+}
+```
 
 ## Testing
 To run the tests, run

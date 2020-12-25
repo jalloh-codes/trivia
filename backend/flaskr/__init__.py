@@ -168,7 +168,6 @@ def create_app(test_config=None):
         'success': True,
         'questions': paginate(request, search_question),
         'total_questions': len(search_question),
-        'total_questions': None
       }), 200
     except:
       abort(404)
